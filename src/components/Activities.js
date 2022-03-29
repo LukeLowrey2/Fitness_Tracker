@@ -26,19 +26,12 @@ const Activities = (props) => {
 
     console.log('these are the activities', activities)
 
-    // const [activities, setActivities] = useState([]);
-
-    // useEffect(async () => {
-    //     const theActivities = await getAllActivities();
-    //     console.log('These are the activities:', theActivities);
-    //     setActivities(theActivities)
-    // })
 
     let singleActivities = null
     let newActivitiesForm = null
 
     if( activities && activities.length){
-        singleActivities = <div >
+        singleActivities = <div>
             {
                 activities.map((activity) =>
                 <div className="content-cards" key={activity.id}>

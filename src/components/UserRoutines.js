@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import NewRoutineForm from './NewRoutineFrom'
+import SingleUserRoutine from './SingleUserRoutine';
 
 
 const BASE_URL = 'http://fitnesstrac-kr.herokuapp.com/api';
@@ -11,7 +12,7 @@ const UserRoutines = (props) => {
 
     // const { userRoutines } = props
     const [userRoutines, setUserRoutines] = useState([]);
-    const [toggle, setToggle] = useState(false);
+    // const [toggle, setToggle] = useState(false);
     const [routineName, setRoutineName] = useState('');
     const [routineGoal, setRoutineGoal] = useState('');
 
@@ -22,15 +23,16 @@ const UserRoutines = (props) => {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${locallySourcedToken}`
-            }
-        })
-
-
-            ;
+            },
+        });
         const userData = await userResponse.json();
         console.log('this is userData', userData)
 
-        const response = await fetch(`${BASE_URL}/users/${userData.username}/routines`);
+        const response = await fetch(`${BASE_URL}/users/${userData.username}/routines`, {
+            headers: {
+                'Content-Type': 'application/json',
+              },
+        });
         const data = await response.json();
         setUserRoutines(data);
     }
@@ -41,56 +43,53 @@ const UserRoutines = (props) => {
 
     console.log('these are the routines', userRoutines)
 
-    const deletePost = async (routineId) => {
-        try {
+    // const deleteRoutine = async (props) => {
+    //     console.log("detele Routine Props", props);
+    //     const { userRoutine } = props;
+    //     try {
 
-            const response = await fetch(`${BASE_URL}/posts/${routineId}`, {
-                method: "DELETE",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("token")}`
-                }
-            })
+    //         const response = await fetch(`${BASE_URL}/posts/${userRoutine.id}`, {
+    //             method: "DELETE",
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': `Bearer ${localStorage.getItem("token")}`
+    //             }
+    //         })
 
-            const data = await response.json();
+    //         const data = await response.json();
 
-            console.log('This is the deletePost function', data);
+    //         console.log('This is the deletePost function', data);
 
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 
-    const updateRoutine = async (id) => {
-        try {
+    // const updateRoutine = async (id) => {
+    //     try {
 
 
-            const locallySourcedToken = localStorage.getItem("token");
+    //         const locallySourcedToken = localStorage.getItem("token");
 
-            const response = await fetch(`${BASE_URL}/api/routines/${id}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${locallySourcedToken}`
-                },
-                body: JSON.stringify({
-                    message: {
-                        content: "Do you still have this?  Would you take $10 less?"
-                    }
-                })
-            });
+    //         const response = await fetch(`${BASE_URL}/api/routines/${id}`, {
+    //             method: "PATCH",
+    //                 body: JSON.stringify({
+    //                 name: routineName,
+    //                 goal: routineGoal
+    //             })
+    //         });
 
-            const data = await response.json();
+    //         const data = await response.json();
 
-            console.log('This is message data', data);
+    //         console.log('This is updated routine data', data);
 
-            setRoutineName('');
-            setRoutineGoal('');
-            toggleMessage(false);
-            getUserRoutines();
-        } catch (err) {
-            console.log(err)
-        }}
+    //         setRoutineName('');
+    //         setRoutineGoal('');
+    //         toggleMessage(false);
+    //         getUserRoutines();
+    //     } catch (err) {
+    //         console.log(err)
+    //     }}
 
 
 
@@ -101,39 +100,41 @@ const UserRoutines = (props) => {
             singleRoutines = <div>
                 {
                     userRoutines.map((userRoutine) =>
-                        <div className="content-cards" key={userRoutine.id}>
-                            <h2>{userRoutine.name}</h2>
-                            <p>Goal: {userRoutine.goal}</p>
-                            <button className='delete-button' onClick={deletePost(userRoutine.id)}>Delete Post</button>
-                            <button className='message-button' onClick={toggleUpdate}>Update</button>
-                            <div>
-                                {toggle ?
-                                    <form onSubmit={updateHandleSubmit}>
-                                        <textarea type="text" placeholder="Name" id="title-input" onChange={(event) => setRoutineName(event.target.value)}></textarea>
-                                        <textarea type="text" placeholder="Goal" id="title-input" onChange={(event) => setRoutineGoal(event.target.value)}></textarea>
-                                        <br></br>
-                                        <button className='message-button' onClick={updateRoutine(userRoutine.id)}>Send Message</button>
-                                    </form>
-                                    :
-                                    ''
-                                }
-                            </div>
-                            <div>
-                                {
-                                    userRoutine.activities.map((activity) =>
-                                        <div key={activity.id}>
-                                            <h4>Activity: {activity.name}</h4>
-                                            <p>{activity.description}</p>
-                                            <p>Duration: {activity.duration} | Count: {activity.count}</p>
+                    <SingleUserRoutine key={userRoutine.id} userRoutine={userRoutine} />
 
-                                        </div>
+                        // <div className="content-cards" key={userRoutine.id}>
+                        //     <h2>{userRoutine.name}</h2>
+                        //     <p>Goal: {userRoutine.goal}</p>
+                        //     <button className='delete-button' onClick={deleteRoutine}>Delete Post</button>
+                        //     {/* <button className='message-button' onClick={toggleUpdate}>Update</button> */}
+                        //     <div>
+                        //         {toggle ?
+                        //             <form onSubmit={updateHandleSubmit}>
+                        //                 <textarea type="text" placeholder="Name" id="title-input" onChange={(event) => setRoutineName(event.target.value)}></textarea>
+                        //                 <textarea type="text" placeholder="Goal" id="title-input" onChange={(event) => setRoutineGoal(event.target.value)}></textarea>
+                        //                 <br></br>
+                        //                 <button className='update-button'  onClick={updateRoutine(userRoutine.id)}>Update Routine</button>
+                        //             </form>
+                        //             :
+                        //             ''
+                        //         }
+                        //     </div>
+                        //     <div>
+                        //         {
+                        //             userRoutine.activities.map((activity) =>
+                        //                 <div key={activity.id}>
+                        //                     <h4>Activity: {activity.name}</h4>
+                        //                     <p>{activity.description}</p>
+                        //                     <p>Duration: {activity.duration} | Count: {activity.count}</p>
+                        //                     {/* add routine button */}
+                        //                 </div>
 
-                                    )
-                                }
-                            </div>
+                        //             )
+                        //         }
+                        //     </div>
 
 
-                        </div>
+                        // </div>
                     )
                 }
             </div>

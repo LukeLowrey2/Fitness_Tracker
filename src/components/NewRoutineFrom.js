@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import AddActivityToRoutine from './AddActivityToRoutine';
+import ActivitiesDropdown from './ActivitiesDropdown.js';
 
 const BASE_URL = 'http://fitnesstrac-kr.herokuapp.com/api';
 
@@ -17,7 +18,7 @@ const NewRoutineForm = () => {
         event.preventDefault();
 
 
-        const response = await fetch(`${BASE_URL}/activities`, {
+        const response = await fetch(`${BASE_URL}/routines`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -34,6 +35,8 @@ const NewRoutineForm = () => {
         )
         const data = await response.json();
         console.log('This is the new activity:', data)
+        setName('')
+        setGoal('')
     }
 
 
@@ -42,9 +45,7 @@ const NewRoutineForm = () => {
             <form onSubmit={handleSubmit}>
                 <h3>New Routine Form</h3>
 
-                <input type="text" placeholder="Name" value={name} onChange={(event) => {
-                    console.log('Routine name input', event.target.value) 
-                    setName(event.target.value)}}></input>
+                <input type="text" placeholder="Name" value={name} onChange={(event) => setName(event.target.value)}></input>
                 <br></br>
                 <textarea type="text" placeholder="Goal" value={goal} onChange={(event) => setGoal(event.target.value)}></textarea>
                 <br></br>
@@ -62,9 +63,14 @@ const NewRoutineForm = () => {
                         setIsPublic(event.target.value)
                         }}></input> <label htmlFor="isPublicFalse">False</label>
                 </div>
+                <div>
+                {/* {
+                    <AddActivityToRoutine />
+                } */}
+                </div>
                 {/* <div>
                 {
-                    <AddActivityToRoutine />
+                    <ActivitiesDropdown />
                 }
                 </div> */}
 

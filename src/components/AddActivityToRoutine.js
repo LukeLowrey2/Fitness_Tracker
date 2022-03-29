@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
+import ActivitiesDropdown from './ActivitiesDropdown';
 
 
 const AddActivityToRoutine = () => {
@@ -30,34 +31,21 @@ const AddActivityToRoutine = () => {
 
     return(
         <div>
-            <form action="/action_page.php">
+            {/* <form action="/action_page.php">
             
-                Subjects: <select name="subject" id="subject">
-                <option value="abc" selected="selected">Select subject</option>
+                Add Activity: <select name="activities" id="activities">
+                <option value="abc" selected="selected">activities</option>
                 </select>
                 <br></br>
-                {/* <fieldset>
-                    <label htmlFor="select-activity"> <span>({activityList.length})</span></label>
-                        <select
-                            name="activity"
-                            id="select-activity"
-                            value={activity}
-                            onChange={(event) => setActivity(event.target.value)}>
-                            <option value="any">Any</option>
-                        {
-                            activityList.map((activity, idx) => {
-                                return <option key = {idx} value = {activity.name}>
-                                            {activity.name} 
-                                        </option>
-                            })
-                        }
-                        </select>
-                </fieldset> */}
+                
+                
 
                 <input type="text" placeholder="Count" value={count} onChange={(event) => setCount(event.target.value)}></input>
                 <input type="text" placeholder="Duration" value={duration} onChange={(event) => setDuration(event.target.value)}></input>
                 
-                </form >
+                </form > */}
+            <ActivitiesDropdown />
+                
         </div>
     )    
 

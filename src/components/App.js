@@ -20,7 +20,7 @@ const App = () => {
         <div>
             <div className="header">
                 <div className="right-header">
-                <h2>Fitness Tracker</h2>
+                <h2>Fitness Trackr</h2>
                 </div>
                     
 
